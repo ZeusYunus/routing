@@ -1,4 +1,4 @@
-import { Component, computed, DestroyRef, inject, input, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, input, OnInit } from '@angular/core';
 import { UsersService } from '../users.service';
 import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 
@@ -12,6 +12,7 @@ import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 export class UserTasksComponent implements OnInit {
   // userId = input.required<string>();
   userName = '';
+  message = input.required<string>();
   private usersService = inject(UsersService);
   private activatedRoute = inject(ActivatedRoute);
   private destoryRef = inject(DestroyRef);
@@ -19,8 +20,11 @@ export class UserTasksComponent implements OnInit {
   // userName = computed(() => this.usersService.users.find(u => u.id === this.userId())?.name);
 
   ngOnInit(): void {
+    console.log('Input Data: ' + this.message());
+
     console.log(this.activatedRoute.snapshot);
     console.log(this.activatedRoute.snapshot.paramMap.get('userId'));
+
     const subscription = this.activatedRoute.paramMap.subscribe({
       next: (paramMap) => {
         this.userName = this.usersService.users.find((u) => u.id === paramMap.get('userId'))?.name || '';
